@@ -1,0 +1,73 @@
+{
+  "type": "object",
+  "properties": {
+    "companyName": {
+      "type": "string",
+      "description": "Blacharstwo i Dekarstwo Juszczak"
+    },
+    "heroTitle": {
+      "type": "string",
+      "description": "Solidne dachy i fachowe usługi dekarskie w Twojej okolicy"
+    },
+    "heroSubtitle": {
+      "type": "string",
+      "description": "Zapewniamy kompleksową budowę, szczelne obróbki blacharskie i profesjonalną opiekę nad Twoim dachem przez cały rok."
+    },
+    "primaryColorHex": {
+      "type": "string",
+      "description": "#1e3a8a"
+    },
+    "aboutText": {
+      "type": "string",
+      "description": "Jako specjaliści od blacharstwa budowlanego i ciesielstwa, od lat dostarczamy trwałe rozwiązania dla domów jednorodzinnych i budynków użytkowych. Nasze doświadczenie pozwala nam łączyć tradycyjne rzemiosło z nowoczesnymi technologiami, gwarantując dach, który przetrwa pokolenia."
+    },
+    "services": {
+      "type": "array",
+      "description": "Główne usługi dekarskie i ciesielskie",
+      "minItems": 3,
+      "maxItems": 3,
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "Budowa dachów i więźby ciesielskiej"
+          },
+          "description": {
+            "type": "string",
+            "description": "Tworzymy stabilne i wytrzymałe konstrukcje od podstaw, dbając o precyzyjne dopasowanie każdego elementu szkieletu Twojego dachu."
+          }
+        },
+        "required": [
+          "title",
+          "description"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "trustBadgeText": {
+      "type": "string",
+      "description": "Sprawdzony wykonawca – solidne rzemiosło i gwarancja szczelności na lata."
+    },
+    "contactPhone": {
+      "type": "string",
+      "description": "+48 501 162 647"
+    },
+    "contactAddress": {
+      "type": "string",
+      "description": "Dojazd do klienta – Szybka realizacja zleceń"
+    }
+  },
+  "required": [
+    "companyName",
+    "heroTitle",
+    "heroSubtitle",
+    "primaryColorHex",
+    "aboutText",
+    "services",
+    "trustBadgeText",
+    "contactPhone",
+    "contactAddress"
+  ],
+  "additionalProperties": false
+}
