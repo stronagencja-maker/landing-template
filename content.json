@@ -1,0 +1,24 @@
+{
+  "companyName": "Auto-Serwis Kowalski",
+  "heroTitle": "Sprawdzony Mechanik Samochodowy w Łodzi",
+  "heroSubtitle": "Szybka diagnostyka, uczciwe ceny i gwarancja na każdą naprawę. Zadbamy o Twoje auto kompleksowo.",
+  "primaryColorHex": "#2563eb",
+  "aboutText": "Od ponad 15 lat pomagamy kierowcom wracać bezpiecznie na drogę. Specjalizujemy się w naprawach bieżących, serwisie klimatyzacji oraz diagnostyce komputerowej wszystkich marek.",
+  "services": [
+    {
+      "title": "Diagnostyka komputerowa",
+      "description": "Szybkie wykrywanie usterek silnika i elektroniki nowoczesnym sprzętem."
+    },
+    {
+      "title": "Wymiana rozrządu i sprzęgła",
+      "description": "Kompleksowe naprawy mechaniczne z pisemną gwarancją na części i robociznę."
+    },
+    {
+      "title": "Serwis klimatyzacji",
+      "description": "Odgrzybianie, nabijanie czynnika oraz kontrola szczelności układu."
+    }
+  ],
+  "trustBadgeText": "Średnia ocena 4.9/5 na podstawie 120 opinii w Google!",
+  "contactPhone": "+48 500 600 700",
+  "contactAddress": "ul. Piotrkowska 100, 90-001 Łódź"
+}

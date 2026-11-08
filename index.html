@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title id="page-title">Ładowanie strony...</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --primary-color: #2563eb;
+    }
+    .bg-primary { background-color: var(--primary-color); }
+    .text-primary { color: var(--primary-color); }
+    .border-primary { border-color: var(--primary-color); }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased">
+
+  <!-- Nawigacja -->
+  <header class="bg-white shadow-sm sticky top-0 z-50">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex justify-between items-center">
+      <span id="company-name" class="text-xl font-bold tracking-tight text-slate-900"></span>
+      <a id="nav-phone" href="#" class="bg-primary text-white px-5 py-2.5 rounded-lg font-semibold text-sm shadow hover:opacity-90 transition">
+        Zadzwoń teraz
+      </a>
+    </div>
+  </header>
+
+  <!-- Sekcja Hero -->
+  <section class="bg-slate-900 text-white py-20 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <div id="trust-badge" class="inline-block bg-white/10 text-amber-400 px-4 py-1.5 rounded-full text-sm font-medium mb-6 border border-white/15">
+      </div>
+      <h1 id="hero-title" class="text-4xl md:text-5xl font-extrabold tracking-tight mb-6 leading-tight"></h1>
+      <p id="hero-subtitle" class="text-lg md:text-xl text-slate-300 mb-10 max-w-2xl mx-auto"></p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <a id="hero-cta" href="#" class="bg-primary text-white px-8 py-4 rounded-xl font-bold text-lg shadow-lg hover:opacity-95 transition">
+          Umów wizytę telefonicznie
+        </a>
+        <a href="#uslugi" class="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-xl font-semibold text-lg transition">
+          Zobacz nasze usługi
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- O nas -->
+  <section class="py-16 px-4 max-w-4xl mx-auto text-center">
+    <h2 class="text-2xl md:text-3xl font-bold mb-6">Dlaczego warto nam zaufać?</h2>
+    <p id="about-text" class="text-lg text-slate-600 leading-relaxed"></p>
+  </section>
+
+  <!-- Usługi (generowane dynamicznie z tablicy JSON) -->
+  <section id="uslugi" class="py-16 px-4 bg-white border-t border-slate-100">
+    <div class="max-w-6xl mx-auto">
+      <h2 class="text-3xl font-bold text-center mb-12">Nasza Oferta</h2>
+      <div id="services-grid" class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <!-- Tutaj JS wstawi kafelki usług -->
+      </div>
+    </div>
+  </section>
+
+  <!-- Kontakt / Stopka -->
+  <footer class="bg-slate-900 text-white py-16 px-4">
+    <div class="max-w-4xl mx-auto text-center">
+      <h2 class="text-2xl font-bold mb-4">Skontaktuj się z nami</h2>
+      <p id="contact-address" class="text-slate-400 mb-6 text-lg"></p>
+      <a id="footer-phone" href="#" class="inline-block bg-primary text-white px-8 py-4 rounded-xl font-bold text-xl shadow-lg"></a>
+      <p class="text-xs text-slate-500 mt-12">Projekt przygotowany indywidualnie. Wszystkie prawa zastrzeżone.</p>
+    </div>
+  </footer>
+
+  <!-- Skrypt mapujący content.json na DOM -->
+  <script>
+    async function loadContent() {
+      try {
+        const response = await fetch('./content.json?t=' + new Date().getTime());
+        const data = await response.json();
+
+        // 1. Ustawienie koloru przewodniego wybranego przez AI
+        if (data.primaryColorHex) {
+          document.documentElement.style.setProperty('--primary-color', data.primaryColorHex);
+        }
+
+        // 2. Podmiana tekstów
+        document.getElementById('page-title').textContent = data.companyName || data.heroTitle;
+        document.getElementById('company-name').textContent = data.companyName || 'Nasza Firma';
+        document.getElementById('trust-badge').textContent = '⭐ ' + (data.trustBadgeText || '');
+        document.getElementById('hero-title').textContent = data.heroTitle;
+        document.getElementById('hero-subtitle').textContent = data.heroSubtitle;
+        document.getElementById('about-text').textContent = data.aboutText;
+        document.getElementById('contact-address').textContent = '📍 ' + (data.contactAddress || '');
+
+        // 3. Podpięcie numerów telefonu pod klikalne linki tel:
+        const cleanPhone = (data.contactPhone || '').replace(/\s+/g, '');
+        const navPhone = document.getElementById('nav-phone');
+        const heroCta = document.getElementById('hero-cta');
+        const footerPhone = document.getElementById('footer-phone');
+
+        navPhone.href = `tel:${cleanPhone}`;
+        navPhone.textContent = `📞 ${data.contactPhone}`;
+        heroCta.href = `tel:${cleanPhone}`;
+        footerPhone.href = `tel:${cleanPhone}`;
+        footerPhone.textContent = `📞 Zadzwoń: ${data.contactPhone}`;
+
+        // 4. Wygenerowanie kafelków usług
+        const servicesGrid = document.getElementById('services-grid');
+        servicesGrid.innerHTML = '';
+        (data.services || []).forEach(service => {
+          const card = document.createElement('div');
+          card.className = 'p-6 rounded-2xl bg-slate-50 border border-slate-200 hover:shadow-md transition border-t-4 border-primary';
+          card.innerHTML = `
+            <h3 class="text-xl font-bold mb-3 text-slate-900">${service.title}</h3>
+            <p class="text-slate-600 leading-relaxed">${service.description}</p>
+          `;
+          servicesGrid.appendChild(card);
+        });
+      } catch (err) {
+        console.error('Błąd wczytywania danych strony:', err);
+      }
+    }
+
+    loadContent();
+  </script>
+</body>
+</html>
